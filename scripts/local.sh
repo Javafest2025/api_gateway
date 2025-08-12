@@ -1,25 +1,24 @@
 #!/bin/bash
 
-# ScholarAI API Gateway - Local Development Script
-# This script provides a robust way to build, run, and test the Spring Boot application
+# API Gateway Local Development Script
+# This script provides commands to build, run, test, and manage the Spring Boot API gateway
 
-set -euo pipefail  # Exit on error, undefined vars, pipe failures
+set -e  # Exit on any error
 
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# Script configuration
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+# Configuration
 APP_NAME="api_gateway"
-DEFAULT_PORT="8989"
-JAR_NAME="${APP_NAME}-0.0.1-SNAPSHOT.jar"
-PID_FILE="${PROJECT_ROOT}/target/${APP_NAME}.pid"
-LOG_FILE="${PROJECT_ROOT}/target/${APP_NAME}.log"
+JAR_NAME="api_gateway-0.0.1-SNAPSHOT.jar"
+DEFAULT_PORT=8989
+PID_FILE="api_gateway.pid"
+LOG_FILE="api_gateway.log"
 
 # Function to print colored output
 print_status() {
@@ -38,215 +37,151 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Function to check if command exists
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
+# Function to check if Java is installed
+check_java() {
+    if ! command -v java &> /dev/null; then
+        print_error "Java is not installed or not in PATH"
+        exit 1
+    fi
+    
+    JAVA_VERSION=$(java -version 2>&1 | head -n 1 | cut -d'"' -f2 | cut -d'.' -f1)
+    if [ "$JAVA_VERSION" -lt "21" ]; then
+        print_error "Java 21 or higher is required. Current version: $JAVA_VERSION"
+        exit 1
+    fi
+    
+    print_success "Java version: $(java -version 2>&1 | head -n 1)"
 }
 
-# Function to detect OS
-detect_os() {
-    case "$(uname -s)" in
-        Linux*)     echo "linux";;
-        Darwin*)    echo "macos";;
-        CYGWIN*|MINGW*|MSYS*) echo "windows";;
-        *)          echo "unknown";;
-    esac
+# Function to check if Maven is installed
+check_maven() {
+    if ! command -v mvn &> /dev/null; then
+        print_error "Maven is not installed or not in PATH"
+        exit 1
+    fi
+    
+    print_success "Maven version: $(mvn -version | head -n 1)"
 }
 
-# Function to check prerequisites
-check_prerequisites() {
-    print_status "Checking prerequisites..."
+# Function to format code
+format() {
+    print_status "Formatting code..."
     
-    local missing_deps=()
-    
-    # Check Java
-    if ! command_exists java; then
-        missing_deps+=("Java")
-    else
-        local java_version=$(java -version 2>&1 | head -n 1 | cut -d'"' -f2 | cut -d'.' -f1)
-        if [[ "$java_version" -lt 21 ]]; then
-            print_warning "Java version $java_version detected. This project requires Java 21+"
+    # Check if spotless is available
+    if mvn help:evaluate -Dexpression=plugin.artifactId -q -DforceStdout | grep -q "spotless-maven-plugin"; then
+        if ! mvn spotless:check; then
+            print_status "Applying code format..."
+            mvn spotless:apply || {
+                print_error "Formatting failed."
+                exit 1
+            }
         else
-            print_success "Java $java_version found"
+            print_success "Code format is up to date."
         fi
-    fi
-    
-    # Check Maven
-    if ! command_exists mvn; then
-        missing_deps+=("Maven")
     else
-        print_success "Maven found"
+        print_warning "Spotless plugin not found. Skipping code formatting."
     fi
-    
-    # Check if we're in the right directory
-    if [[ ! -f "${PROJECT_ROOT}/pom.xml" ]]; then
-        print_error "pom.xml not found. Please run this script from the project root directory."
-        exit 1
-    fi
-    
-    if [[ ${#missing_deps[@]} -gt 0 ]]; then
-        print_error "Missing dependencies: ${missing_deps[*]}"
-        print_status "Please install the missing dependencies and try again."
-        exit 1
-    fi
-    
-    print_success "All prerequisites satisfied"
 }
 
-# Function to clean the project
-clean_project() {
-    print_status "Cleaning project..."
-    cd "$PROJECT_ROOT"
+# Function to build the application
+build() {
+    print_status "Building $APP_NAME..."
     
-    if [[ -f "$PID_FILE" ]]; then
-        local pid=$(cat "$PID_FILE")
-        if kill -0 "$pid" 2>/dev/null; then
-            print_warning "Application is still running (PID: $pid). Stopping it first..."
-            kill "$pid" || true
-            sleep 2
-        fi
-        rm -f "$PID_FILE"
-    fi
+    # Format code first
+    format
     
-    mvn clean
-    print_success "Project cleaned"
-}
-
-# Function to build the project
-build_project() {
-    print_status "Building project..."
-    cd "$PROJECT_ROOT"
+    # Clean and compile
+    mvn clean compile
     
-    # Clean first
-    clean_project
-    
-    # Build with tests
-    if mvn clean compile test-compile; then
-        print_success "Project compiled successfully"
-    else
-        print_error "Compilation failed"
-        exit 1
-    fi
+    # Run tests
+    mvn test
     
     # Package the application
-    if mvn package -DskipTests; then
-        print_success "Application packaged successfully"
-    else
-        print_error "Packaging failed"
-        exit 1
-    fi
+    mvn package -DskipTests
+    
+    print_success "Build completed successfully!"
 }
 
 # Function to run tests
-run_tests() {
+test() {
     print_status "Running tests..."
-    cd "$PROJECT_ROOT"
-    
-    if mvn test; then
-        print_success "All tests passed"
-    else
-        print_error "Tests failed"
-        exit 1
-    fi
+    mvn test
+    print_success "Tests completed!"
 }
 
-# Function to start the application
-start_application() {
-    print_status "Starting application..."
-    cd "$PROJECT_ROOT"
+# Function to run the application
+run() {
+    local port=${1:-$DEFAULT_PORT}
     
-    # Check if JAR exists
-    if [[ ! -f "target/$JAR_NAME" ]]; then
-        print_warning "JAR file not found. Building project first..."
-        build_project
-    fi
+    print_status "Starting $APP_NAME on port $port..."
     
     # Check if application is already running
-    if [[ -f "$PID_FILE" ]]; then
+    if [ -f "$PID_FILE" ]; then
         local pid=$(cat "$PID_FILE")
-        if kill -0 "$pid" 2>/dev/null; then
-            print_warning "Application is already running (PID: $pid)"
-            return 0
+        if ps -p "$pid" > /dev/null 2>&1; then
+            print_warning "Application is already running with PID $pid"
+            print_status "Use './scripts/local.sh stop' to stop it first"
+            return 1
         else
             rm -f "$PID_FILE"
         fi
     fi
     
     # Start the application
-    print_status "Starting $APP_NAME on port $DEFAULT_PORT..."
-    nohup java -jar "target/$JAR_NAME" > "$LOG_FILE" 2>&1 &
+    nohup mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=$port" > "$LOG_FILE" 2>&1 &
     local pid=$!
-    echo "$pid" > "$PID_FILE"
+    echo $pid > "$PID_FILE"
     
-    # Wait a moment for the application to start
-    sleep 3
+    print_success "Application started with PID $pid"
+    print_status "Logs are being written to $LOG_FILE"
+    print_status "API Gateway will be available at http://localhost:$port"
     
-    # Check if the application started successfully
-    if kill -0 "$pid" 2>/dev/null; then
-        print_success "Application started successfully (PID: $pid)"
-        print_status "Logs are being written to: $LOG_FILE"
-        print_status "Application URL: http://localhost:$DEFAULT_PORT"
-        print_status "Health check: http://localhost:$DEFAULT_PORT/actuator/health"
-        print_status "API Documentation: http://localhost:$DEFAULT_PORT/swagger-ui.html"
-    else
-        print_error "Failed to start application"
-        print_status "Check logs at: $LOG_FILE"
+    # Wait a moment and check if it started successfully
+    sleep 5
+    if ! ps -p "$pid" > /dev/null 2>&1; then
+        print_error "Application failed to start. Check logs:"
+        tail -n 20 "$LOG_FILE"
+        rm -f "$PID_FILE"
         exit 1
     fi
+    
+    print_success "Application is running successfully!"
 }
 
 # Function to stop the application
-stop_application() {
-    print_status "Stopping application..."
+stop() {
+    print_status "Stopping $APP_NAME..."
     
-    if [[ -f "$PID_FILE" ]]; then
+    if [ -f "$PID_FILE" ]; then
         local pid=$(cat "$PID_FILE")
-        if kill -0 "$pid" 2>/dev/null; then
-            print_status "Stopping process $pid..."
+        if ps -p "$pid" > /dev/null 2>&1; then
             kill "$pid"
-            
-            # Wait for graceful shutdown
-            local count=0
-            while kill -0 "$pid" 2>/dev/null && [[ $count -lt 30 ]]; do
-                sleep 1
-                ((count++))
-            done
-            
-            if kill -0 "$pid" 2>/dev/null; then
-                print_warning "Application didn't stop gracefully. Force killing..."
-                kill -9 "$pid" 2>/dev/null || true
-            fi
-            
-            print_success "Application stopped"
+            print_success "Application stopped (PID: $pid)"
         else
-            print_warning "Application is not running"
+            print_warning "Application was not running"
         fi
-        
         rm -f "$PID_FILE"
     else
         print_warning "No PID file found. Application may not be running."
     fi
 }
 
-# Function to show application status
-show_status() {
-    print_status "Checking application status..."
-    
-    if [[ -f "$PID_FILE" ]]; then
+# Function to restart the application
+restart() {
+    local port=${1:-$DEFAULT_PORT}
+    print_status "Restarting $APP_NAME..."
+    stop
+    sleep 2
+    run "$port"
+}
+
+# Function to check application status
+status() {
+    if [ -f "$PID_FILE" ]; then
         local pid=$(cat "$PID_FILE")
-        if kill -0 "$pid" 2>/dev/null; then
+        if ps -p "$pid" > /dev/null 2>&1; then
             print_success "Application is running (PID: $pid)"
-            print_status "Application URL: http://localhost:$DEFAULT_PORT"
-            
-            # Try to get health status
-            if command_exists curl; then
-                local health_status=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:$DEFAULT_PORT/actuator/health" 2>/dev/null || echo "000")
-                if [[ "$health_status" == "200" ]]; then
-                    print_success "Health check: OK"
-                else
-                    print_warning "Health check: Failed (HTTP $health_status)"
-                fi
-            fi
+            print_status "API Gateway: http://localhost:$DEFAULT_PORT"
         else
             print_warning "PID file exists but application is not running"
             rm -f "$PID_FILE"
@@ -257,82 +192,89 @@ show_status() {
 }
 
 # Function to show logs
-show_logs() {
-    if [[ -f "$LOG_FILE" ]]; then
-        print_status "Showing application logs (last 50 lines):"
-        echo "----------------------------------------"
-        tail -n 50 "$LOG_FILE"
-        echo "----------------------------------------"
-        print_status "Full log file: $LOG_FILE"
+logs() {
+    if [ -f "$LOG_FILE" ]; then
+        tail -f "$LOG_FILE"
     else
-        print_warning "No log file found"
+        print_warning "No log file found. Application may not have been started."
     fi
+}
+
+# Function to clean up
+clean() {
+    print_status "Cleaning up..."
+    stop
+    mvn clean
+    rm -f "$LOG_FILE"
+    print_success "Cleanup completed!"
 }
 
 # Function to show help
 show_help() {
-    echo "ScholarAI API Gateway - Local Development Script"
+    echo "API Gateway Local Development Script"
     echo ""
-    echo "Usage: $0 [COMMAND]"
+    echo "Usage: $0 [COMMAND] [OPTIONS]"
     echo ""
     echo "Commands:"
-    echo "  build     Build the project (clean, compile, package)"
-    echo "  test      Run all tests"
-    echo "  start     Start the application"
-    echo "  stop      Stop the application"
-    echo "  restart   Restart the application"
-    echo "  status    Show application status"
-    echo "  logs      Show application logs"
-    echo "  clean     Clean the project"
-    echo "  all       Build, test, and start the application"
-    echo "  help      Show this help message"
+    echo "  format                   Format code using Spotless"
+    echo "  build                    Build the application (format, clean, compile, test, package)"
+    echo "  test                     Run tests only"
+    echo "  run [PORT]              Start the application (default port: $DEFAULT_PORT)"
+    echo "  stop                    Stop the application"
+    echo "  restart [PORT]          Restart the application"
+    echo "  status                  Show application status"
+    echo "  logs                    Show application logs (follow mode)"
+    echo "  clean                   Stop app, clean build artifacts and logs"
+    echo "  help                    Show this help message"
     echo ""
     echo "Examples:"
+    echo "  $0 format"
     echo "  $0 build"
-    echo "  $0 start"
-    echo "  $0 all"
-    echo ""
+    echo "  $0 test"
+    echo "  $0 run"
+    echo "  $0 run 8081"
+    echo "  $0 restart"
+    echo "  $0 logs"
 }
 
 # Main script logic
 main() {
-    # Check prerequisites first
-    check_prerequisites
+    # Change to project root directory
+    cd "$(dirname "$0")/.."
     
-    # Parse command line arguments
+    # Check prerequisites
+    check_java
+    check_maven
+    
     case "${1:-help}" in
-        build)
-            build_project
+        "format")
+            format
             ;;
-        test)
-            run_tests
+        "build")
+            build
             ;;
-        start)
-            start_application
+        "test")
+            test
             ;;
-        stop)
-            stop_application
+        "run")
+            run "$2"
             ;;
-        restart)
-            stop_application
-            sleep 2
-            start_application
+        "stop")
+            stop
             ;;
-        status)
-            show_status
+        "restart")
+            restart "$2"
             ;;
-        logs)
-            show_logs
+        "status")
+            status
             ;;
-        clean)
-            clean_project
+        "logs")
+            logs
             ;;
-        all)
-            build_project
-            run_tests
-            start_application
+        "clean")
+            clean
             ;;
-        help|--help|-h)
+        "help"|"-h"|"--help")
             show_help
             ;;
         *)
@@ -343,9 +285,6 @@ main() {
             ;;
     esac
 }
-
-# Trap to ensure cleanup on script exit
-trap 'print_status "Script interrupted. Cleaning up..."; stop_application' INT TERM
 
 # Run main function with all arguments
 main "$@"
