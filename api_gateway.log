@@ -35,47 +35,47 @@
 
  :: Spring Boot ::                (v3.5.4)
 
-2025-08-13T13:00:03.029+06:00  INFO 30148 --- [api-gateway] [           main] o.s.s.api_gateway.ApiGatewayApplication  : Starting ApiGatewayApplication using Java 21.0.3 with PID 30148 (D:\Javafest2025\ScholarAI\Microservices\api_gateway\target\classes started by Tasriad Ahmed Tias in D:\Javafest2025\ScholarAI\Microservices\api_gateway)
-2025-08-13T13:00:03.030+06:00  INFO 30148 --- [api-gateway] [           main] o.s.s.api_gateway.ApiGatewayApplication  : No active profile set, falling back to 1 default profile: "default"
-2025-08-13T13:00:04.379+06:00  INFO 30148 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ca2052dd-f796-3add-950a-6458937cd596
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
-2025-08-13T13:00:05.236+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
-2025-08-13T13:00:05.237+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
-2025-08-13T13:00:05.237+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
-2025-08-13T13:00:05.237+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
-2025-08-13T13:00:05.237+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
-2025-08-13T13:00:05.446+06:00  INFO 30148 --- [api-gateway] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2025-08-13T13:00:05.660+06:00  INFO 30148 --- [api-gateway] [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
-2025-08-13T13:00:05.725+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2025-08-13T13:00:05.742+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2025-08-13T13:00:05.746+06:00  INFO 30148 --- [api-gateway] [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:00:05.752+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
-2025-08-13T13:00:05.753+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
-2025-08-13T13:00:05.753+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
-2025-08-13T13:00:05.753+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
-2025-08-13T13:00:05.753+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
-2025-08-13T13:00:05.753+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
-2025-08-13T13:00:05.753+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
-2025-08-13T13:00:06.038+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
-2025-08-13T13:00:06.040+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
-2025-08-13T13:00:06.041+06:00  INFO 30148 --- [api-gateway] [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
-2025-08-13T13:00:06.044+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1755068406043 with initial instances count: 1
-2025-08-13T13:00:06.046+06:00  INFO 30148 --- [api-gateway] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application API-GATEWAY with eureka with status UP
-2025-08-13T13:00:06.046+06:00  INFO 30148 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1755068406046, current=UP, previous=STARTING]
-2025-08-13T13:00:06.047+06:00  INFO 30148 --- [api-gateway] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/Legion-of-Tias.mshome.net:api-gateway:8989: registering service...
-2025-08-13T13:00:06.080+06:00  INFO 30148 --- [api-gateway] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/Legion-of-Tias.mshome.net:api-gateway:8989 - registration status: 204
-2025-08-13T13:00:06.194+06:00  INFO 30148 --- [api-gateway] [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8989 (http)
-2025-08-13T13:00:06.194+06:00  INFO 30148 --- [api-gateway] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8989
-2025-08-13T13:00:06.215+06:00  INFO 30148 --- [api-gateway] [           main] o.s.s.api_gateway.ApiGatewayApplication  : Started ApiGatewayApplication in 3.508 seconds (process running for 3.935)
-2025-08-13T13:00:06.219+06:00  WARN 30148 --- [api-gateway] [           main] o.s.b.c.p.m.PropertiesMigrationListener  : 
+2025-08-16T15:40:34.597+06:00  INFO 51608 --- [api-gateway] [           main] o.s.s.api_gateway.ApiGatewayApplication  : Starting ApiGatewayApplication using Java 21.0.3 with PID 51608 (D:\Javafest2025\ScholarAI\Microservices\api_gateway\target\classes started by Tasriad Ahmed Tias in D:\Javafest2025\ScholarAI\Microservices\api_gateway)
+2025-08-16T15:40:34.599+06:00  INFO 51608 --- [api-gateway] [           main] o.s.s.api_gateway.ApiGatewayApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-08-16T15:40:35.873+06:00  INFO 51608 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ca2052dd-f796-3add-950a-6458937cd596
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2025-08-16T15:40:36.811+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2025-08-16T15:40:37.068+06:00  INFO 51608 --- [api-gateway] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-08-16T15:40:37.289+06:00  INFO 51608 --- [api-gateway] [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2025-08-16T15:40:37.363+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2025-08-16T15:40:37.380+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2025-08-16T15:40:37.385+06:00  INFO 51608 --- [api-gateway] [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T15:40:37.391+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2025-08-16T15:40:37.391+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2025-08-16T15:40:37.391+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2025-08-16T15:40:37.391+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2025-08-16T15:40:37.391+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2025-08-16T15:40:37.391+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2025-08-16T15:40:37.391+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2025-08-16T15:40:37.842+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2025-08-16T15:40:37.843+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2025-08-16T15:40:37.845+06:00  INFO 51608 --- [api-gateway] [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-08-16T15:40:37.847+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1755337237846 with initial instances count: 0
+2025-08-16T15:40:37.849+06:00  INFO 51608 --- [api-gateway] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application API-GATEWAY with eureka with status UP
+2025-08-16T15:40:37.850+06:00  INFO 51608 --- [api-gateway] [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1755337237850, current=UP, previous=STARTING]
+2025-08-16T15:40:37.851+06:00  INFO 51608 --- [api-gateway] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/Legion-of-Tias.mshome.net:api-gateway:8989: registering service...
+2025-08-16T15:40:37.969+06:00  INFO 51608 --- [api-gateway] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/Legion-of-Tias.mshome.net:api-gateway:8989 - registration status: 204
+2025-08-16T15:40:38.006+06:00  INFO 51608 --- [api-gateway] [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8989 (http)
+2025-08-16T15:40:38.008+06:00  INFO 51608 --- [api-gateway] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8989
+2025-08-16T15:40:38.031+06:00  INFO 51608 --- [api-gateway] [           main] o.s.s.api_gateway.ApiGatewayApplication  : Started ApiGatewayApplication in 3.897 seconds (process running for 4.533)
+2025-08-16T15:40:38.035+06:00  WARN 51608 --- [api-gateway] [           main] o.s.b.c.p.m.PropertiesMigrationListener  : 
 The use of configuration keys that have been renamed was found in the environment:
 
 Property source 'Config resource 'class path resource [application.properties]' via location 'optional:classpath:/'':
@@ -122,24 +122,34 @@ Property source 'Config resource 'class path resource [application.properties]' 
 
 Each configuration key has been temporarily mapped to its replacement for your convenience. To silence this warning, please update your configuration to use the new keys.
 
-2025-08-13T13:05:05.762+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:10:05.774+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:15:05.778+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:20:05.781+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:25:05.794+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:30:05.808+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:35:05.817+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:40:05.831+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:45:05.847+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:50:05.848+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T13:55:05.851+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:00:05.870+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:05:05.873+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:10:05.889+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:15:05.898+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:20:05.904+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:25:05.909+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:30:05.915+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:35:05.931+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:40:05.945+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-08-13T14:45:05.960+06:00  INFO 30148 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T15:41:07.857+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2025-08-16T15:41:07.857+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2025-08-16T15:41:07.859+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2025-08-16T15:41:07.859+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2025-08-16T15:41:07.859+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2025-08-16T15:41:07.859+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
+2025-08-16T15:41:07.859+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2025-08-16T15:41:07.899+06:00  INFO 51608 --- [api-gateway] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2025-08-16T15:45:37.403+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T15:50:37.416+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T15:55:37.419+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:00:37.438+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:05:37.452+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:10:37.459+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:15:37.466+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:20:37.481+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:25:37.491+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:30:37.509+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:35:37.511+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:40:37.517+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:45:37.527+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:50:37.540+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T16:55:37.551+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:00:37.557+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:05:37.562+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:10:37.575+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:15:37.585+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:20:37.590+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:25:39.228+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:30:39.241+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-16T17:35:39.243+06:00  INFO 51608 --- [api-gateway] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
