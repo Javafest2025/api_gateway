@@ -34,3 +34,8 @@ build/
 
 *.pid
 *.log
+
+# Environment files
+.env
+*.env
+.env.*
