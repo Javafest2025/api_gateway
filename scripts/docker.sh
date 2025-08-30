@@ -75,6 +75,21 @@ build() {
     print_success "Docker image built successfully!"
 }
 
+# Function to rebuild the Docker image without cache
+rebuild_nocache() {
+    print_status "Rebuilding Docker image for $APP_NAME without cache..."
+    
+    create_network
+    
+    # Remove existing image first
+    docker-compose down --rmi all
+    
+    # Build fresh image without cache
+    docker-compose build --no-cache --pull
+    
+    print_success "Docker image rebuilt successfully without cache!"
+}
+
 # Function to run the application
 run() {
     print_status "Starting $APP_NAME container..."
@@ -168,6 +183,7 @@ show_help() {
     echo ""
     echo "Commands:"
     echo "  build                    Build the Docker image"
+    echo "  rebuild-nocache          Rebuild the Docker image without cache"
     echo "  run                      Start the container"
     echo "  stop                     Stop the container"
     echo "  restart                  Restart the container"
@@ -193,6 +209,9 @@ main() {
     case "${1:-help}" in
         "build")
             build
+            ;;
+        "rebuild-nocache")
+            rebuild_nocache
             ;;
         "run")
             run
