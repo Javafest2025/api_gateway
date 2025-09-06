@@ -9,6 +9,40 @@ spring:
           enabled: true
           lower-case-service-id: true
 
+      # Custom route definitions for API endpoints
+      routes:
+        # Route for paper-related APIs to project-service
+        - id: paper-api-route
+          uri: lb://PROJECT-SERVICE
+          predicates:
+            - Path=/api/papers/**
+          filters:
+            - StripPrefix=0
+
+        # Route for extraction APIs to project-service (which then calls extractor)
+        - id: extraction-api-route
+          uri: lb://PROJECT-SERVICE
+          predicates:
+            - Path=/api/v1/extraction/**
+          filters:
+            - StripPrefix=0
+
+        # Route for user APIs to user-service
+        - id: user-api-route
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - StripPrefix=0
+
+        # Route for notification APIs to notification-service
+        - id: notification-api-route
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - StripPrefix=0
+
       # Global CORS configuration for Spring Cloud Gateway (WebFlux)
       globalcors:
         add-to-simple-url-handler-mapping: true
