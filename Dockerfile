@@ -25,6 +25,12 @@ RUN ./mvnw clean package -DskipTests
 # Stage 2: Runtime image
 FROM eclipse-temurin:21-jre
 
+# ---- Metadata labels for cleanup & observability ----
+LABEL service="api-gateway" \
+      maintainer="ScholarAI <dev@scholarai.local>" \
+      version="0.0.1-SNAPSHOT" \
+      description="Spring Cloud Gateway for ScholarAI"
+
 # Install curl for health checks (minimal installation)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl && \
