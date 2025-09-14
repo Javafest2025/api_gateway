@@ -1,0 +1,155 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      # Custom route definitions for API endpoints
+      routes:
+        # Route for paper-related APIs to project-service
+        - id: paper-api-route
+          uri: lb://PROJECT-SERVICE
+          predicates:
+            - Path=/api/papers/**
+          filters:
+            - StripPrefix=0
+
+        # Route for extraction APIs to project-service (which then calls extractor)
+        - id: extraction-api-route
+          uri: lb://PROJECT-SERVICE
+          predicates:
+            - Path=/api/v1/extraction/**
+          filters:
+            - StripPrefix=0
+
+        # Route for user APIs to user-service
+        - id: user-api-route
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - StripPrefix=0
+
+        # Route for notification APIs to notification-service
+        - id: notification-api-route
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - StripPrefix=0
+
+      # Global CORS configuration for Spring Cloud Gateway (WebFlux)
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - "http://localhost:3000"
+              - "https://localhost:3000"
+              - "http://127.0.0.1:3000"
+              - "https://127.0.0.1:3000"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowed-headers: "*"
+            allow-credentials: true
+            exposed-headers: "*"
+
+      httpclient:
+        response-timeout: 60000
+        connect-timeout: 30000
+        pool:
+          max-idle-time: PT15S
+          max-life-time: PT60S
+
+  cache:
+    type: caffeine
+
+  codec:
+    max-in-memory-size: 10MB
+
+server:
+  port: 8989
+
+# Eureka Client Configuration for Docker
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://service-registry:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    hostname: ${HOSTNAME:api-gateway}
+    appname: api-gateway
+
+management:
+  info:
+    git:
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics,gateway
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    gateway:
+      enabled: true
+  metrics:
+    tags:
+      application: "${spring.application.name}"
+  tracing:
+    enabled: false
+    sampling:
+      probability: 1
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  show-actuator: true
+  use-management-port: false
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+    # Enable authorization persistence in browser
+    persistAuthorization: true
+    # Enable deep linking for swagger operations
+    deepLinking: true
+    # Display request duration in swagger UI
+    displayRequestDuration: true
+    # Enable filtering of operations
+    filter: true
+    # Show common extensions
+    showExtensions: true
+    # Sort operations alphabetically
+    operationsSorter: alpha
+    # Sort tags alphabetically
+    tagsSorter: alpha
+    # Enable try it out by default
+    tryItOutEnabled: true
+    # Custom configuration
+    disable-swagger-default-url: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty: DEBUG
+    org.springframework.security: DEBUG
