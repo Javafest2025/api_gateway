@@ -5,10 +5,10 @@ services:
       dockerfile: Dockerfile
     container_name: scholar-api-gateway
     ports:
-      - "${SERVER_PORT:-8989}:${SERVER_PORT:-8989}"
+      - "8989:8989"
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILE}
-      - SERVER_PORT=${SERVER_PORT:-8989}
+      - SERVER_PORT=8989
       - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-registry:8761/eureka/
 
       # ---- JVM: container-aware, small heap, smoother pauses
@@ -43,7 +43,7 @@ services:
 
     # keep your curl-based health check as-is
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${SERVER_PORT:-8989}/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8989/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3

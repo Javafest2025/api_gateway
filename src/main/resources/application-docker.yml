@@ -78,7 +78,7 @@ spring:
     max-in-memory-size: 10MB
 
 server:
-  port: ${SERVER_PORT:8989}
+  port: 8989
 
 # Eureka Client Configuration for Docker
 eureka:
