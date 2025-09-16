@@ -57,6 +57,8 @@ spring:
               - "https://70.153.18.56:3000"
               - "http://scholarai.indonesiacentral.cloudapp.azure.com:3000"
               - "https://scholarai.indonesiacentral.cloudapp.azure.com:3000"
+              - "https://scholarai.me"
+              - "https://scholarai.me:3000"
             allowed-methods:
               - GET
               - POST
