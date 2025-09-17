@@ -53,6 +53,12 @@ spring:
               - "https://localhost:3000"
               - "http://127.0.0.1:3000"
               - "https://127.0.0.1:3000"
+              - "http://70.153.18.56:3000"
+              - "https://70.153.18.56:3000"
+              - "http://scholarai.indonesiacentral.cloudapp.azure.com:3000"
+              - "https://scholarai.indonesiacentral.cloudapp.azure.com:3000"
+              - "https://scholarai.me"
+              - "https://scholarai.me:3000"
             allowed-methods:
               - GET
               - POST

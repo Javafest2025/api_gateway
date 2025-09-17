@@ -1,0 +1,65 @@
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scholar-api-gateway
+
+    # 🏷️ Add metadata labels for cleanup & observability
+    labels:
+      service: "api-gateway"
+      maintainer: "ScholarAI <dev@scholarai.local>"
+      version: "0.0.1-SNAPSHOT"
+      description: "Spring Cloud Gateway for ScholarAI"
+
+    env_file:
+      - /opt/scholarai/envs/api-gateway.env
+    ports:
+      - "8989:8989"
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILE:-prod}
+      - SERVER_PORT=8989
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-registry:8761/eureka/
+
+      # ---- JVM: container-aware, small heap, smoother pauses
+      - JAVA_TOOL_OPTIONS=-XX:InitialRAMPercentage=20 -XX:MaxRAMPercentage=60 -XX:+UseStringDeduplication -XX:MaxGCPauseMillis=200 -Dreactor.netty.ioWorkerCount=2
+
+      # ---- WebFlux/Netty/Gateway resource knobs
+      - SPRING_MAIN_WEB_APPLICATION_TYPE=reactive
+      # limit in-memory body buffers (default can be large)
+      - SPRING_CODEC_MAX_IN_MEMORY_SIZE=16MB
+      # fixed connection pool with a sane ceiling
+      - SPRING_CLOUD_GATEWAY_HTTPCLIENT_POOL_TYPE=fixed
+      - SPRING_CLOUD_GATEWAY_HTTPCLIENT_POOL_MAX_CONNECTIONS=200
+      # timeouts (keep external calls from piling up in memory)
+      - SPRING_CLOUD_GATEWAY_HTTPCLIENT_CONNECT_TIMEOUT=5000
+      - SPRING_CLOUD_GATEWAY_HTTPCLIENT_RESPONSE_TIMEOUT=30s
+      # keep wiretap off to reduce overhead (enable only when debugging)
+      - SPRING_CLOUD_GATEWAY_HTTPCLIENT_WIRETAP=false
+
+    networks:
+      - scholarai-network
+    restart: unless-stopped
+
+    # ---- Resource caps (compose local mode)
+    cpus: 0.75
+    mem_limit: 768m
+    mem_reservation: 384m
+    pids_limit: 256
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+    # keep your curl-based health check as-is
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8989/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  scholarai-network:
+    external: true
+    name: docker_scholarai-network
